@@ -4,7 +4,7 @@
 #include"Map.h"
 #include"Vector2.h"
 
-const char kWindowTitle[] = "LE2D_10_タテイシ_ヨシヒロ";
+const char kWindowTitle[] = "卵の帰還";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
