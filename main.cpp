@@ -13,8 +13,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	// キー入力結果を受け取る箱
-	char keys[256] = {0};
-	char preKeys[256] = {0};
+	char keys[256] = { 0 };
+	char preKeys[256] = { 0 };
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -27,7 +27,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		int map[mapCountY][mapCountX] = { 0 };
 
-		int box = Novice::LoadTexture("./Resources/box.png");
+		int box = Novice::LoadTexture("./Resources/floor.png");
+		int obstacle = Novice::LoadTexture("./Resources/kusa.png");
 
 		///
 		/// ↓更新処理ここから
@@ -50,8 +51,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
 						0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
 						0, 0, mapTipSize, mapTipSize,
+						obstacle,
+						0xFFFFFFF
+					);
+				}
+				else if (map[y][x] == 2) {
+					Novice::DrawQuad(
+						0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
+						0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
+						0, 0, mapTipSize, mapTipSize,
 						box,
-						0xaa77aaFF
+						0xFFFFFFFF
 					);
 				}
 			}
