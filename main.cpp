@@ -1,4 +1,8 @@
 #include <Novice.h>
+#include<stdio.h>
+#include"MapOpen.h"
+#include"Map.h"
+#include"Vector2.h"
 
 const char kWindowTitle[] = "LE2D_10_タテイシ_ヨシヒロ";
 
@@ -21,9 +25,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
 
+		int map[mapCountY][mapCountX] = { 0 };
+
+		int box = Novice::LoadTexture("./Resources/box.png");
+
 		///
 		/// ↓更新処理ここから
 		///
+
+		MapOpen(map);
 
 		///
 		/// ↑更新処理ここまで
@@ -32,6 +42,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
+
+		for (int y = 0; y < mapCountY; y++) {
+			for (int x = 0; x < mapCountX; x++) {
+				if (map[y][x] == 1) {
+					Novice::DrawQuad(
+						0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
+						0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
+						0, 0, mapTipSize, mapTipSize,
+						box,
+						0xaa77aaFF
+					);
+				}
+			}
+		}
 
 		///
 		/// ↑描画処理ここまで
