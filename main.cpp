@@ -27,8 +27,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		int map[mapCountY][mapCountX] = { 0 };
 
-		int box = Novice::LoadTexture("./Resources/floor.png");
-		int obstacle = Novice::LoadTexture("./Resources/kusa.png");
+		int box = Novice::LoadTexture("./Resources/wall.png");
+		int obstacle = Novice::LoadTexture("./Resources/sky.png");
 
 		///
 		/// ↓更新処理ここから
@@ -51,8 +51,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
 						0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
 						0, 0, mapTipSize, mapTipSize,
-						obstacle,
-						0xFFFFFFF
+						box,
+						0xFFFFFFFF
 					);
 				}
 				else if (map[y][x] == 2) {
@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
 						0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
 						0, 0, mapTipSize, mapTipSize,
-						box,
+						obstacle,
 						0xFFFFFFFF
 					);
 				}
