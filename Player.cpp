@@ -34,7 +34,7 @@ void Player::Initialize()
 	leftDownRotated.y = h / 2;
 	rightDownRotated.x = w / 2;
 	rightDownRotated.y = h / 2;
-	grHandle = Novice::LoadTexture("white1x1.png");
+	grHandle = Novice::LoadTexture("white1x1.png"); //プレイヤーの画像に入れ替える
 }
 
 void Player::Update()
