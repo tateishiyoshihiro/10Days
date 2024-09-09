@@ -9,8 +9,8 @@ void Player::Initialize()
 	speed.y = 0;
 	acceleration.x = 0;
 	acceleration.y = 0.8f;
-	radius.x = 10;
-	radius.y = 10;
+	radius.x = 32;
+	radius.y = 32;
 }
 
 void Player::Update()
