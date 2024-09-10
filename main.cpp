@@ -16,20 +16,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Player* player = new Player();
 	player->Initialize();
 
-	struct Line
-	{
-		Vector2 start;
-		Vector2 end;
-		unsigned int color;
-	};
-
-	Line line
-	{
-		{0.0f,400.0f},
-		{1100.0f,400.0f},
-		WHITE
-	};
-
 	// キー入力結果を受け取る箱
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
@@ -65,8 +51,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		player->Draw();
-		Novice::DrawLine((int)line.start.x, (int)line.start.y,
-			(int)line.end.x, (int)line.end.y, line.color);
 
 		for (int y = 0; y < mapCountY; y++) {
 			for (int x = 0; x < mapCountX; x++) {

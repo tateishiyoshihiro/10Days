@@ -9,4 +9,3 @@ enum MapNum {
 	BLOCK,
 	OBSTACLE,
 };
-

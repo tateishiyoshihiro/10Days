@@ -2,21 +2,24 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include<Novice.h>
+#include <iostream>
+#include <algorithm>
+#include"MapOpen.h"
 
 void Player::Initialize()
 {
 	pos.x = 640;
-	pos.y = 390;
-	speed.x = 5;
+	pos.y = 300;
+	speed.x = 3;
 	speed.y = 0;
 	acceleration.x = 0;
-	acceleration.y = 0.8f;
-	radius.x = 32;
-	radius.y = 32;
+	acceleration.y = 0.1f;
+	radius.x = 16;
+	radius.y = 16;
 
 	theta = 0.0f;
-	w = 63;
-	h = 63;
+	w = 32;
+	h = 32;
 	leftTopPos.x =  -w / 2;
 	leftTopPos.y =  -h / 2;
 	rightTopPos.x =  w / 2;
@@ -35,28 +38,89 @@ void Player::Initialize()
 	rightDownRotated.x = w / 2;
 	rightDownRotated.y = h / 2;
 	grHandle = Novice::LoadTexture("white1x1.png"); //プレイヤーの画像に入れ替える
+	MapOpen(map2);
+	
 }
 
 void Player::Update()
 {
+	// フラグのリセット
+	bool collidedLeft = false;
+	bool collidedRight = false;
+
 	Novice::GetHitKeyStateAll(keys);
 
 	// プレイヤーがラインより奥に移動すると落ちる
-	if (pos.x > 1100)
-	{
+	//if (pos.x > 1100)
+	//{
 		speed.y -= acceleration.y;
 		pos.y -= speed.y;
-	}
+	//}
 
 	if (keys[DIK_A])
 	{
 		theta -= 0.1f;
 		pos.x -= speed.x;
+		
+		// プレイヤーの移動方向が左なので、左のマップチップと衝突するかを確認
+		for (int y = 0; y < mapCountY; y++)
+		{
+			for (int x = 0; x < mapCountX; x++) {
+				if (map2[y][x] == 1) {
+					int rectX1 = x * mapTipSize;
+					int rectY1 = y * mapTipSize;
+					int rectX2 = rectX1 + mapTipSize;
+					int rectY2 = rectY1 + mapTipSize;
+
+					// 円の中心よりも左側のマップチップと衝突判定
+					if (pos.x - radius.x < rectX2 && pos.x > rectX1 &&
+						CheckCircleRectCollision((int)pos.x, (int)pos.y, (int)radius.x, (int)rectX1, (int)rectY1, (int)rectX2, (int)rectY2)) {
+						collidedLeft = true; // 左側の衝突
+						pos.x = rectX2 + radius.x; // プレイヤーの位置を修正
+					}
+				}
+			}
+		}
+
+
 	}
 	if (keys[DIK_D])
 	{
 		theta += 0.1f;
 		pos.x += speed.x;
+
+		// プレイヤーの移動方向が右なので、右のマップチップと衝突するかを確認
+		for (int y = 0; y < mapCountY; y++) {
+			for (int x = 0; x < mapCountX; x++) {
+				if (map2[y][x] == 1) {
+					int rectX1 = x * mapTipSize;
+					int rectY1 = y * mapTipSize;
+					int rectX2 = rectX1 + mapTipSize;
+					int rectY2 = rectY1 + mapTipSize;
+
+					// 円の中心よりも右側のマップチップと衝突判定
+					if (pos.x + radius.x > rectX1 && pos.x < rectX2 &&
+						CheckCircleRectCollision((int)pos.x, (int)pos.y, (int)radius.x, rectX1, rectY1, rectX2, rectY2)) {
+						collidedRight = true; // 右側の衝突
+						pos.x = rectX1 - radius.x; // プレイヤーの位置を修正
+					}
+				}
+			}
+		}
+	}
+
+	// 衝突時の速度制御
+	if (collidedLeft) {
+		// 左に衝突した場合、左方向への移動を止める
+		if (keys[DIK_A]) {
+			pos.x += speed.x;  // 衝突していたら移動を元に戻す
+		}  
+	}
+	if (collidedRight) {
+		// 右に衝突した場合、右方向への移動を止める
+		if (keys[DIK_D]) {
+			pos.x -= speed.x;  // 衝突していたら移動を元に戻す
+		}
 	}
 
 	leftTopRotated.x = (leftTopPos.x * cosf(theta) - leftTopPos.y * sinf(theta)) + pos.x;
@@ -67,16 +131,6 @@ void Player::Update()
 	leftDownRotated.y = (leftDownPos.y * cosf(theta) + leftDownPos.x * sinf(theta)) + pos.y;
 	rightDownRotated.x = (rightDownPos.x * cosf(theta) - rightDownPos.y * sinf(theta)) + pos.x;
 	rightDownRotated.y = (rightDownPos.y * cosf(theta) + rightDownPos.x * sinf(theta)) + pos.y;
-
-	/*leftTopRotated.x += 63;
-	leftTopRotated.y += 63;
-	rightTopRotated.x += 63;
-	rightTopRotated.y += 63;
-	leftDownRotated.x += 63;
-	leftDownRotated.y += 63;
-	rightDownRotated.x += 63;
-	rightDownRotated.y += 63;*/
-
 }
 
 void Player::Draw()
@@ -92,4 +146,18 @@ void Player::Draw()
 		(int)w, (int)h,
 		grHandle,
 		WHITE);
+}
+
+bool Player::CheckCircleRectCollision(int circleX, int circleY, int circleRadius, int rectX1, int rectY1, int rectX2, int rectY2)
+{
+	// 円の中心から矩形に最も近い点を求める
+	int closestX = (std::max)(rectX1, (std::min)(circleX, rectX2));
+	int closestY = (std::max)(rectY1, (std::min)(circleY, rectY2));
+	// 円の中心とその点との距離を計算
+	int dx = circleX - closestX;
+	int dy = circleY - closestY;
+	int distanceSquared = dx * dx + dy * dy;
+
+	// 距離が円の半径の2乗より小さいか確認
+	return distanceSquared < (circleRadius * circleRadius);
 }
