@@ -1,4 +1,5 @@
 #include <Novice.h>
+#include "Player.h"
 #include<stdio.h>
 #include"MapOpen.h"
 #include"Map.h"
@@ -11,6 +12,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, 1280, 720);
+
+	Player* player = new Player();
+	player->Initialize();
+
+	struct Line
+	{
+		Vector2 start;
+		Vector2 end;
+		unsigned int color;
+	};
+
+	Line line
+	{
+		{0.0f,400.0f},
+		{1100.0f,400.0f},
+		WHITE
+	};
 
 	// キー入力結果を受け取る箱
 	char keys[256] = { 0 };
@@ -34,6 +52,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
+		player->Update();
+
 		MapOpen(map);
 
 		///
@@ -43,6 +63,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
+
+		player->Draw();
+		Novice::DrawLine((int)line.start.x, (int)line.start.y,
+			(int)line.end.x, (int)line.end.y, line.color);
 
 		for (int y = 0; y < mapCountY; y++) {
 			for (int x = 0; x < mapCountX; x++) {
