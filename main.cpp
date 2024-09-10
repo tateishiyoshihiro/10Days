@@ -14,13 +14,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	enum SCENE {
-		title,
-		game,
-		clear,
-		over,
+		Title,
+		Game,
+		GameClear,
+		GameOver,
 	};
 
-	SCENE scene = title;
+	SCENE scene = Title;
 
 	Player* player = new Player();
 	player->Initialize();
@@ -66,27 +66,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		switch (scene) {
-		case title:
+		case Title:
 			MapOpen(map);
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
-				scene = game;
+				scene = Game;
 			}
 			break;
-		case game:
+		case Game:
 			player->Update();
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
-				scene = clear;
+				scene = GameClear;
 			}
 			break;
-		case clear:
+		case GameClear:
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
-				scene = title;
+				scene = Title;
 			}
 			break;
-		case over:
+		case GameOver:
 			break;
 		}
 
@@ -99,7 +99,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		switch (scene) {
-		case title:
+		case Title:
 			for (int y = 0; y < mapCountY; y++) {
 				for (int x = 0; x < mapCountX; x++) {
 					if (map[y][x] == 1) {
@@ -123,14 +123,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 			break;
-		case game:
+		case Game:
 			player->Draw();
 			Novice::DrawLine((int)line.start.x, (int)line.start.y,
 				(int)line.end.x, (int)line.end.y, line.color);
 			break;
-		case clear:
+		case GameClear:
 			break;
-		case over:
+		case GameOver:
 			break;
 		}
 
