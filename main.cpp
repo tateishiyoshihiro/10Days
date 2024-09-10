@@ -13,6 +13,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
+	enum SCENE {
+		title,
+		game,
+		clear,
+		over,
+	};
+
+	SCENE scene = title;
+
 	Player* player = new Player();
 	player->Initialize();
 
@@ -30,6 +39,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		WHITE
 	};
 
+	int map[mapCountY][mapCountX] = { 0 };
+
+	int box = Novice::LoadTexture("./Resources/wall.png");
+	int obstacle = Novice::LoadTexture("./Resources/sky.png");
+
+
+
 	// キー入力結果を受け取る箱
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
@@ -43,18 +59,36 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
 
-		int map[mapCountY][mapCountX] = { 0 };
 
-		int box = Novice::LoadTexture("./Resources/wall.png");
-		int obstacle = Novice::LoadTexture("./Resources/sky.png");
 
 		///
 		/// ↓更新処理ここから
 		///
 
-		player->Update();
-
-		MapOpen(map);
+		switch (scene) {
+		case title:
+			MapOpen(map);
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
+			{
+				scene = game;
+			}
+			break;
+		case game:
+			player->Update();
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
+			{
+				scene = clear;
+			}
+			break;
+		case clear:
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
+			{
+				scene = title;
+			}
+			break;
+		case over:
+			break;
+		}
 
 		///
 		/// ↑更新処理ここまで
@@ -64,31 +98,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		player->Draw();
-		Novice::DrawLine((int)line.start.x, (int)line.start.y,
-			(int)line.end.x, (int)line.end.y, line.color);
-
-		for (int y = 0; y < mapCountY; y++) {
-			for (int x = 0; x < mapCountX; x++) {
-				if (map[y][x] == 1) {
-					Novice::DrawQuad(
-						0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
-						0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
-						0, 0, mapTipSize, mapTipSize,
-						box,
-						0xFFFFFFFF
-					);
-				}
-				else if (map[y][x] == 2) {
-					Novice::DrawQuad(
-						0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
-						0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
-						0, 0, mapTipSize, mapTipSize,
-						obstacle,
-						0xFFFFFFFF
-					);
+		switch (scene) {
+		case title:
+			for (int y = 0; y < mapCountY; y++) {
+				for (int x = 0; x < mapCountX; x++) {
+					if (map[y][x] == 1) {
+						Novice::DrawQuad(
+							0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
+							0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
+							0, 0, mapTipSize, mapTipSize,
+							box,
+							0xFFFFFFFF
+						);
+					}
+					else if (map[y][x] == 2) {
+						Novice::DrawQuad(
+							0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
+							0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
+							0, 0, mapTipSize, mapTipSize,
+							obstacle,
+							0xFFFFFFFF
+						);
+					}
 				}
 			}
+			break;
+		case game:
+			player->Draw();
+			Novice::DrawLine((int)line.start.x, (int)line.start.y,
+				(int)line.end.x, (int)line.end.y, line.color);
+			break;
+		case clear:
+			break;
+		case over:
+			break;
 		}
 
 		///
