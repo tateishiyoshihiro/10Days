@@ -8,8 +8,8 @@
 
 void Player::Initialize()
 {
-	pos.x = 640;
-	pos.y = 300;
+	pos.x = 50;
+	pos.y = 50;
 	speed.x = 3;
 	speed.y = 0;
 	acceleration.x = 0;
@@ -50,12 +50,24 @@ void Player::Update()
 
 	Novice::GetHitKeyStateAll(keys);
 
-	// プレイヤーがラインより奥に移動すると落ちる
-	//if (pos.x > 1100)
-	//{
-		speed.y -= acceleration.y;
-		pos.y -= speed.y;
-	//}
+	// プレイヤーが重力で落ちる
+	speed.y -= acceleration.y;
+	pos.y -= speed.y;
+	
+
+	// マップとの衝突判定 (下方向の衝突判定)
+	int mapTileY = (int)((pos.y + radius.y) / mapTipSize);  // プレイヤーの底が接するマップチップのY座標
+	int mapTileX = (int)(pos.x / mapTipSize);               // プレイヤーのX座標のマップチップ
+
+	// プレイヤーの下にマップチップが存在するか確認
+	if (map2[mapTileY][mapTileX] == BLOCK) // マップが "BLOCK" の場合
+	{
+		// プレイヤーのY座標をマップのブロックの上に固定
+		pos.y = mapTileY * mapTipSize - radius.y;
+
+		// Y方向の速度を0にする (落下を停止)
+		speed.y = 0;
+	}
 
 	if (keys[DIK_A])
 	{
