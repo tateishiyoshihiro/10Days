@@ -23,5 +23,5 @@ public:
 
 	int box;
 	int obstacle;
-	int nest;
+	int gorl;
 };
