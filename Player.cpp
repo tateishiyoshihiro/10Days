@@ -41,7 +41,7 @@ void Player::Initialize()
 	MapOpen(map2);
 	life = 3;
 	isAlive = true;
-	lifeTime = 30;
+	lifeTime = 60;
 	lifeTimer = lifeTime;
 	collisionInvalid = false;
 	isGorl = false;
@@ -195,7 +195,7 @@ void Player::Draw()
 {
 	// 当たり判定するようの円
 	Novice::DrawEllipse((int)pos.x, (int)pos.y, (int)radius.x, (int)radius.y, 0.0f, WHITE, kFillModeSolid);
-
+	Novice::ScreenPrintf(0, 60, "life :%d", life);
 	Novice::DrawQuad((int)leftTopRotated.x, (int)leftTopRotated.y,
 		(int)rightTopRotated.x, (int)rightTopRotated.y,
 		(int)leftDownRotated.x, (int)leftDownRotated.y,

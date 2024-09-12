@@ -21,4 +21,6 @@ public:
 	void Draw();
 
 	float DistanceToPlayer(Player* player);
+	bool IsCircleCollidingWithRect2(float circleX, float circleY, float radius,
+		float rectX, float rectY, float rectW, float rectH);
 };
