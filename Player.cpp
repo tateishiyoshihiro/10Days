@@ -44,6 +44,7 @@ void Player::Initialize()
 	lifeTime = 30;
 	lifeTimer = lifeTime;
 	collisionInvalid = false;
+	isGorl = false;
 }
 
 void Player::Update()
@@ -67,6 +68,8 @@ void Player::Update()
 	int mapTileY = (int)((pos.y + radius.y) / mapTipSize);  // プレイヤーの底が接するマップチップのY座標
 	int mapTileX = (int)(pos.x / mapTipSize);               // プレイヤーのX座標のマップチップ
 
+	// プレイヤーがいるマップチップ
+	int mapTile = (int)(pos.y / mapTipSize);
 	// プレイヤーの下にマップチップが存在するか確認
 	if (map2[mapTileY][mapTileX] == BLOCK) // マップが "BLOCK" の場合
 	{
@@ -172,6 +175,12 @@ void Player::Update()
 		lifeTimer = lifeTime;
 	}
 
+
+	if (map2[mapTile][mapTileX] == NEST) // マップが "OBSTACLE" の場合
+	{
+		isGorl = true;
+
+	}
 	leftTopRotated.x = (leftTopPos.x * cosf(theta) - leftTopPos.y * sinf(theta)) + pos.x;
 	leftTopRotated.y = (leftTopPos.y * cosf(theta) + leftTopPos.x * sinf(theta)) + pos.y;
 	rightTopRotated.x = (rightTopPos.x * cosf(theta) - rightTopPos.y * sinf(theta)) + pos.x;
@@ -196,7 +205,7 @@ void Player::Draw()
 		grHandle,
 		WHITE);
 
-	Novice::ScreenPrintf(0, 0, "%d", life);
+	Novice::ScreenPrintf(0, 0, "%d", isGorl);
 	Novice::ScreenPrintf(0, 80, "%f", speed.x );
 }
 

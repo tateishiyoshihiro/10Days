@@ -73,7 +73,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			player->Update();
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
-				scene = GameClear;
+				if (player->isGorl) {
+					scene = GameClear;
+				}	
 			}
 			if (player->isAlive == false) {
 				scene = GameOver;

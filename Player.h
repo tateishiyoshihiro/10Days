@@ -30,6 +30,7 @@ public:
 	int lifeTime;
 	int lifeTimer;
 	bool collisionInvalid;
+	bool isGorl;
 
 public:
 	void Initialize();
