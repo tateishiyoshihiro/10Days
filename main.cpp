@@ -4,6 +4,7 @@
 #include"MapOpen.h"
 #include"Map.h"
 #include"Vector2.h"
+#include "FallEnemy.h"
 
 const char kWindowTitle[] = "卵の帰還";
 
@@ -24,6 +25,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Player* player = new Player();
 	player->Initialize();
+
+	FallEnemy* fallEnemy = new FallEnemy();
+	fallEnemy->Initialize();
 
 	Map* map = new Map();
 	map->Initialize();
@@ -71,6 +75,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case Game:
 			player->Update();
+			fallEnemy->Update(player);
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
 				if (player->isGorl) {
@@ -88,6 +93,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		case GameOver:
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
+			{
+				scene = Title;
+			}
 			break;
 		}
 
@@ -105,7 +114,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case Game:
 			player->Draw();
-			
+			fallEnemy->Draw();
 			map->Draw();
 			break;
 		case GameClear:

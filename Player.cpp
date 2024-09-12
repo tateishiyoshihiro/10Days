@@ -41,7 +41,7 @@ void Player::Initialize()
 	MapOpen(map2);
 	life = 3;
 	isAlive = true;
-	lifeTime = 30;
+	lifeTime = 60;
 	lifeTimer = lifeTime;
 	collisionInvalid = false;
 	isGorl = false;
@@ -78,6 +78,10 @@ void Player::Update()
 
 		// Y方向の速度を0にする (落下を停止)
 		speed.y = 0;
+	}
+
+	if (map2[mapTile][mapTileX] == POISON) {
+		speed.x = 2.0f;
 	}
 
 	if (keys[DIK_A])
@@ -195,7 +199,7 @@ void Player::Draw()
 {
 	// 当たり判定するようの円
 	Novice::DrawEllipse((int)pos.x, (int)pos.y, (int)radius.x, (int)radius.y, 0.0f, WHITE, kFillModeSolid);
-
+	Novice::ScreenPrintf(0, 60, "life :%d", life);
 	Novice::DrawQuad((int)leftTopRotated.x, (int)leftTopRotated.y,
 		(int)rightTopRotated.x, (int)rightTopRotated.y,
 		(int)leftDownRotated.x, (int)leftDownRotated.y,
@@ -204,6 +208,8 @@ void Player::Draw()
 		(int)w, (int)h,
 		grHandle,
 		WHITE);
+
+	Novice::ScreenPrintf(0, 30, "%f", speed.x);
 }
 
 bool Player::CheckCircleRectCollision(int circleX, int circleY, int circleRadius, int rectX1, int rectY1, int rectX2, int rectY2)
