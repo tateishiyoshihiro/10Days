@@ -59,11 +59,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
 
-		int map[mapCountY][mapCountX] = { 0 };
-
-		int box = Novice::LoadTexture("./Resources/wall.png");
-		int obstacle = Novice::LoadTexture("./Resources/sky.png");
-
 		///
 		/// ↓更新処理ここから
 		///
@@ -128,8 +123,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case Game:
 			player->Draw();
-			Novice::DrawLine((int)line.start.x, (int)line.start.y,
-				(int)line.end.x, (int)line.end.y, line.color);
+			for (int y = 0; y < mapCountY; y++) {
+				for (int x = 0; x < mapCountX; x++) {
+					if (map[y][x] == 1) {
+						Novice::DrawQuad(
+							0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
+							0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
+							0, 0, mapTipSize, mapTipSize,
+							box,
+							0xFFFFFFFF
+						);
+					}
+					else if (map[y][x] == 2) {
+						Novice::DrawQuad(
+							0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
+							0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
+							0, 0, mapTipSize, mapTipSize,
+							obstacle,
+							0xFFFFFFFF
+						);
+					}
+				}
+			}
+			
 			break;
 		case GameClear:
 			break;
