@@ -11,7 +11,7 @@ const char kWindowTitle[] = "卵の帰還";
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
-	Novice::Initialize(kWindowTitle, 1280, 720);
+	Novice::Initialize(kWindowTitle, 1000, 800);
 
 	enum SCENE {
 		Title,
