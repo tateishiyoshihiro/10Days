@@ -6,6 +6,7 @@ void Map::Initialize() {
 	box = Novice::LoadTexture("./Resources/wall.png");
 	obstacle = Novice::LoadTexture("./Resources/sky.png");
 	gorl = Novice::LoadTexture("./Resources/akamaru.png");
+	poison = Novice::LoadTexture("./Resources/poison.png");
 	MapOpen(map);
 }
 
@@ -43,6 +44,15 @@ void Map::Draw() {
 					0xFFFFFFFF
 				);
 			}
-		} 
+			else if (map[y][x] == POISON) {
+				Novice::DrawQuad(
+					0 + x * mapTipSize, 0 + y * mapTipSize, mapTipSize + x * mapTipSize, 0 + y * mapTipSize,
+					0 + x * mapTipSize, mapTipSize + y * mapTipSize, mapTipSize + x * mapTipSize, mapTipSize + y * mapTipSize,
+					0, 0, mapTipSize, mapTipSize,
+					poison,
+					0xFFFFFFFF
+				);
+			}
+		}
 	}
 }

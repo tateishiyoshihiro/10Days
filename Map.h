@@ -9,6 +9,7 @@ enum MapNum {
 	BLOCK,
 	OBSTACLE,
 	NEST,
+	POISON,
 };
 
 struct Map
@@ -24,4 +25,5 @@ public:
 	int box;
 	int obstacle;
 	int gorl;
+	int poison;
 };

@@ -80,6 +80,10 @@ void Player::Update()
 		speed.y = 0;
 	}
 
+	if (map2[mapTile][mapTileX] == POISON) {
+		speed.x = 2.0f;
+	}
+
 	if (keys[DIK_A])
 	{
 		theta -= 0.1f;
@@ -204,6 +208,8 @@ void Player::Draw()
 		(int)w, (int)h,
 		grHandle,
 		WHITE);
+
+	Novice::ScreenPrintf(0, 30, "%f", speed.x);
 }
 
 bool Player::CheckCircleRectCollision(int circleX, int circleY, int circleRadius, int rectX1, int rectY1, int rectX2, int rectY2)
