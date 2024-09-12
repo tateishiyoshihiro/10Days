@@ -93,6 +93,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		case GameOver:
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
+			{
+				scene = Title;
+			}
 			break;
 		}
 
