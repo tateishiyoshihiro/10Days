@@ -9,3 +9,17 @@ enum MapNum {
 	BLOCK,
 	OBSTACLE,
 };
+
+struct Map
+{
+public:
+	void Initialize();
+	void Update();
+	void Draw();
+
+public:
+	int map[mapCountY][mapCountX] = { 0 };
+
+	int box;
+	int obstacle;
+};

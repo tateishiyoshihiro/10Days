@@ -24,6 +24,9 @@ public:
 	Vector2 rightDownRotated;
 	int grHandle;
 
+	// life
+	int life;
+
 public:
 	void Initialize();
 	void Update();

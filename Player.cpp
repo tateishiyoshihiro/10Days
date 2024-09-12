@@ -39,6 +39,7 @@ void Player::Initialize()
 	rightDownRotated.y = h / 2;
 	grHandle = Novice::LoadTexture("white1x1.png"); //プレイヤーの画像に入れ替える
 	MapOpen(map2);
+	life = 1;
 	
 }
 
