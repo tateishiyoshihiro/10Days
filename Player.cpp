@@ -204,9 +204,6 @@ void Player::Draw()
 		(int)w, (int)h,
 		grHandle,
 		WHITE);
-
-	Novice::ScreenPrintf(0, 0, "%d", isGorl);
-	Novice::ScreenPrintf(0, 80, "%f", speed.x );
 }
 
 bool Player::CheckCircleRectCollision(int circleX, int circleY, int circleRadius, int rectX1, int rectY1, int rectX2, int rectY2)
