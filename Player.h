@@ -26,6 +26,10 @@ public:
 
 	// life
 	int life;
+	bool isAlive;
+	int lifeTime;
+	int lifeTimer;
+	bool collisionInvalid;
 
 public:
 	void Initialize();

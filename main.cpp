@@ -74,6 +74,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			{
 				scene = GameClear;
 			}
+			if (player->isAlive == false) {
+				scene = GameOver;
+			}
 			break;
 		case GameClear:
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
@@ -105,6 +108,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case GameClear:
 			break;
 		case GameOver:
+			
 			break;
 		}
 

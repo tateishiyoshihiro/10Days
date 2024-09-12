@@ -20,12 +20,12 @@ void Player::Initialize()
 	theta = 0.0f;
 	w = 32;
 	h = 32;
-	leftTopPos.x =  -w / 2;
-	leftTopPos.y =  -h / 2;
-	rightTopPos.x =  w / 2;
+	leftTopPos.x = -w / 2;
+	leftTopPos.y = -h / 2;
+	rightTopPos.x = w / 2;
 	rightTopPos.y = -h / 2;
 	leftDownPos.x = -w / 2;
-	leftDownPos.y =  h / 2;
+	leftDownPos.y = h / 2;
 	rightDownPos.x = w / 2;
 	rightDownPos.y = h / 2;
 
@@ -39,8 +39,11 @@ void Player::Initialize()
 	rightDownRotated.y = h / 2;
 	grHandle = Novice::LoadTexture("white1x1.png"); //プレイヤーの画像に入れ替える
 	MapOpen(map2);
-	life = 1;
-	
+	life = 3;
+	isAlive = true;
+	lifeTime = 30;
+	lifeTimer = lifeTime;
+	collisionInvalid = false;
 }
 
 void Player::Update()
@@ -54,7 +57,7 @@ void Player::Update()
 	// プレイヤーが重力で落ちる
 	speed.y -= acceleration.y;
 	pos.y -= speed.y;
-	
+
 
 	// マップとの衝突判定 (下方向の衝突判定)
 	int mapTileY = (int)((pos.y + radius.y) / mapTipSize);  // プレイヤーの底が接するマップチップのY座標
@@ -74,7 +77,7 @@ void Player::Update()
 	{
 		theta -= 0.1f;
 		pos.x -= speed.x;
-		
+
 		// プレイヤーの移動方向が左なので、左のマップチップと衝突するかを確認
 		for (int y = 0; y < mapCountY; y++)
 		{
@@ -127,13 +130,35 @@ void Player::Update()
 		// 左に衝突した場合、左方向への移動を止める
 		if (keys[DIK_A]) {
 			pos.x += speed.x;  // 衝突していたら移動を元に戻す
-		}  
+		}
 	}
 	if (collidedRight) {
 		// 右に衝突した場合、右方向への移動を止める
 		if (keys[DIK_D]) {
 			pos.x -= speed.x;  // 衝突していたら移動を元に戻す
 		}
+	}
+
+	if (map2[mapTileY][mapTileX] == OBSTACLE) // マップが "BLOCK" の場合
+	{
+		if (!collisionInvalid) {
+			life--;
+			collisionInvalid = true;
+		}
+
+	}
+
+	if (life <= 0) {
+		isAlive = false;
+	}
+
+	if (collisionInvalid) {
+		lifeTimer--;
+	}
+
+	if (lifeTimer <= 0) {
+		collisionInvalid = false;
+		lifeTimer = lifeTime;
 	}
 
 	leftTopRotated.x = (leftTopPos.x * cosf(theta) - leftTopPos.y * sinf(theta)) + pos.x;
@@ -159,6 +184,9 @@ void Player::Draw()
 		(int)w, (int)h,
 		grHandle,
 		WHITE);
+
+	Novice::ScreenPrintf(0, 0, "%d", life);
+	Novice::ScreenPrintf(0, 80, "%d", lifeTimer );
 }
 
 bool Player::CheckCircleRectCollision(int circleX, int circleY, int circleRadius, int rectX1, int rectY1, int rectX2, int rectY2)
