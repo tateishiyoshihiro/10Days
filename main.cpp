@@ -59,7 +59,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
 
+		int map[mapCountY][mapCountX] = { 0 };
 
+		int box = Novice::LoadTexture("./Resources/wall.png");
+		int obstacle = Novice::LoadTexture("./Resources/sky.png");
 
 		///
 		/// ↓更新処理ここから

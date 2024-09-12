@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Vector2.h"
+#include "Map.h"
 
 struct Player
 {
@@ -27,4 +28,10 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+
+	bool CheckCircleRectCollision(int circleX, int circleY, int circleRadius,
+		int rectX1, int rectY1, int rectX2, int rectY2);
+
+private:
+	int map2[mapCountY][mapCountX] = { 0 };
 };
