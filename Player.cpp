@@ -12,7 +12,7 @@ void Player::Initialize()
 	pos.y = 50;
 	speed.x = 3;
 	speed.y = 0;
-	acceleration.x = 0;
+	acceleration.x = 0.05f;
 	acceleration.y = 0.1f;
 	radius.x = 16;
 	radius.y = 16;
@@ -55,10 +55,14 @@ void Player::Update()
 	Novice::GetHitKeyStateAll(keys);
 
 	// プレイヤーが重力で落ちる
-	speed.y -= acceleration.y;
-	pos.y -= speed.y;
+	if (speed.x <= 5.0f) {
+		speed.y -= acceleration.y;
+		pos.y -= speed.y;
+	}
 
-
+	if (speed.x >= 6.0f) {
+		speed.x = 6.0f;
+	}
 	// マップとの衝突判定 (下方向の衝突判定)
 	int mapTileY = (int)((pos.y + radius.y) / mapTipSize);  // プレイヤーの底が接するマップチップのY座標
 	int mapTileX = (int)(pos.x / mapTipSize);               // プレイヤーのX座標のマップチップ
@@ -76,6 +80,7 @@ void Player::Update()
 	if (keys[DIK_A])
 	{
 		theta -= 0.1f;
+		speed.x += acceleration.x;
 		pos.x -= speed.x;
 
 		// プレイヤーの移動方向が左なので、左のマップチップと衝突するかを確認
@@ -100,9 +105,10 @@ void Player::Update()
 
 
 	}
-	if (keys[DIK_D])
+	else if (keys[DIK_D])
 	{
 		theta += 0.1f;
+		speed.x += acceleration.x;
 		pos.x += speed.x;
 
 		// プレイヤーの移動方向が右なので、右のマップチップと衝突するかを確認
@@ -124,6 +130,9 @@ void Player::Update()
 			}
 		}
 	}
+	else {
+		speed.x = 3.0f;
+	}
 
 	// 衝突時の速度制御
 	if (collidedLeft) {
@@ -131,15 +140,17 @@ void Player::Update()
 		if (keys[DIK_A]) {
 			pos.x += speed.x;  // 衝突していたら移動を元に戻す
 		}
+		speed.x = 3.0f;
 	}
 	if (collidedRight) {
 		// 右に衝突した場合、右方向への移動を止める
 		if (keys[DIK_D]) {
 			pos.x -= speed.x;  // 衝突していたら移動を元に戻す
 		}
+		speed.x = 3.0f;
 	}
 
-	if (map2[mapTileY][mapTileX] == OBSTACLE) // マップが "BLOCK" の場合
+	if (map2[mapTileY][mapTileX] == OBSTACLE) // マップが "OBSTACLE" の場合
 	{
 		if (!collisionInvalid) {
 			life--;
@@ -186,7 +197,7 @@ void Player::Draw()
 		WHITE);
 
 	Novice::ScreenPrintf(0, 0, "%d", life);
-	Novice::ScreenPrintf(0, 80, "%d", lifeTimer );
+	Novice::ScreenPrintf(0, 80, "%f", speed.x );
 }
 
 bool Player::CheckCircleRectCollision(int circleX, int circleY, int circleRadius, int rectX1, int rectY1, int rectX2, int rectY2)

@@ -66,6 +66,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
 				scene = Game;
+				player->Initialize();
 			}
 			break;
 		case Game:
