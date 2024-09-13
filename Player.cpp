@@ -37,7 +37,9 @@ void Player::Initialize()
 	leftDownRotated.y = h / 2;
 	rightDownRotated.x = w / 2;
 	rightDownRotated.y = h / 2;
-	grHandle = Novice::LoadTexture("white1x1.png"); //プレイヤーの画像に入れ替える
+	grHandle = Novice::LoadTexture("./Resources/player.png"); //プレイヤーの画像に入れ替える
+	grHandle2 = Novice::LoadTexture("./Resources/player2.png");
+	grHandle3 = Novice::LoadTexture("./Resources/player3.png");
 	MapOpen(map2);
 	life = 3;
 	isAlive = true;
@@ -54,7 +56,7 @@ void Player::Update()
 	bool collidedRight = false;
 
 	Novice::GetHitKeyStateAll(keys);
-
+	
 	// プレイヤーが重力で落ちる
 	if (speed.x <= 5.0f) {
 		speed.y -= acceleration.y;
@@ -193,6 +195,7 @@ void Player::Update()
 	leftDownRotated.y = (leftDownPos.y * cosf(theta) + leftDownPos.x * sinf(theta)) + pos.y;
 	rightDownRotated.x = (rightDownPos.x * cosf(theta) - rightDownPos.y * sinf(theta)) + pos.x;
 	rightDownRotated.y = (rightDownPos.y * cosf(theta) + rightDownPos.x * sinf(theta)) + pos.y;
+
 }
 
 void Player::Draw()
@@ -200,15 +203,36 @@ void Player::Draw()
 	// 当たり判定するようの円
 	Novice::DrawEllipse((int)pos.x, (int)pos.y, (int)radius.x, (int)radius.y, 0.0f, WHITE, kFillModeSolid);
 	Novice::ScreenPrintf(0, 60, "life :%d", life);
-	Novice::DrawQuad((int)leftTopRotated.x, (int)leftTopRotated.y,
-		(int)rightTopRotated.x, (int)rightTopRotated.y,
-		(int)leftDownRotated.x, (int)leftDownRotated.y,
-		(int)rightDownRotated.x, (int)rightDownRotated.y,
-		0, 0,
-		(int)w, (int)h,
-		grHandle,
-		WHITE);
-
+	if (life <= 3) {
+		Novice::DrawQuad((int)leftTopRotated.x, (int)leftTopRotated.y,
+			(int)rightTopRotated.x, (int)rightTopRotated.y,
+			(int)leftDownRotated.x, (int)leftDownRotated.y,
+			(int)rightDownRotated.x, (int)rightDownRotated.y,
+			0, 0,
+			(int)w, (int)h,
+			grHandle,
+			WHITE);
+	}
+	if (life <= 2) {
+		Novice::DrawQuad((int)leftTopRotated.x, (int)leftTopRotated.y,
+			(int)rightTopRotated.x, (int)rightTopRotated.y,
+			(int)leftDownRotated.x, (int)leftDownRotated.y,
+			(int)rightDownRotated.x, (int)rightDownRotated.y,
+			0, 0,
+			(int)w, (int)h,
+			grHandle2,
+			WHITE);
+	}
+	if (life <= 1) {
+		Novice::DrawQuad((int)leftTopRotated.x, (int)leftTopRotated.y,
+			(int)rightTopRotated.x, (int)rightTopRotated.y,
+			(int)leftDownRotated.x, (int)leftDownRotated.y,
+			(int)rightDownRotated.x, (int)rightDownRotated.y,
+			0, 0,
+			(int)w, (int)h,
+			grHandle3,
+			WHITE);
+	}
 	Novice::ScreenPrintf(0, 30, "%f", speed.x);
 }
 

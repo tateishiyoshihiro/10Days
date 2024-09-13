@@ -23,6 +23,8 @@ public:
 	Vector2 leftDownRotated;
 	Vector2 rightDownRotated;
 	int grHandle;
+	int grHandle2;
+	int grHandle3;
 
 	// life
 	int life;

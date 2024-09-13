@@ -14,6 +14,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, 1000, 800);
 
+
 	enum SCENE {
 		Title,
 		Game,
@@ -46,6 +47,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		WHITE
 	};
 
+	int TitlePng = Novice::LoadTexture("./Resources/title.png");
+	int back = Novice::LoadTexture("./Resources/back.png");
+	int over = Novice::LoadTexture("./Resources/over.png");
+	int clear = Novice::LoadTexture("./Resources/clear.png");
+
 	//int map[mapCountY][mapCountX] = { 0 };
 
 	// キー入力結果を受け取る箱
@@ -60,7 +66,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// キー入力を受け取る
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
-
+		
 		///
 		/// ↓更新処理ここから
 		///
@@ -110,17 +116,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		switch (scene) {
 		case Title:
-			
+			Novice::DrawSprite(0, 0, TitlePng, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 			break;
 		case Game:
+			Novice::DrawSprite(0, 0, back, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 			player->Draw();
 			fallEnemy->Draw();
 			map->Draw();
+
 			break;
 		case GameClear:
+			Novice::DrawSprite(0, 0, clear, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 			break;
 		case GameOver:
-			
+			Novice::DrawSprite(0, 0, over, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 			break;
 		}
 

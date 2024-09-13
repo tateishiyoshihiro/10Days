@@ -5,6 +5,7 @@
 
 void FallEnemy::Initialize()
 {
+	fall = Novice::LoadTexture("./Resources/fall.png");
 	FallEnemyPos.x = 550.0f;
 	FallEnemyPos.y = 193.0f;
 	FallEnemyW = 32.0f;
@@ -74,7 +75,20 @@ void FallEnemy::Update(Player* player)
 
 void FallEnemy::Draw()
 {
-	Novice::DrawBox((int)FallEnemyPos.x, (int)FallEnemyPos.y, (int)FallEnemyW, (int)FallEnemyH, 0.0f, RED, kFillModeSolid);
+	Novice::DrawQuad(
+		(int)FallEnemyPos.x,
+		(int)FallEnemyPos.y,
+		(int)FallEnemyPos.x+32,
+		(int)FallEnemyPos.y,
+		(int)FallEnemyPos.x,
+		(int)FallEnemyPos.y+32,
+		(int)FallEnemyPos.x+32,
+		(int)FallEnemyPos.y+32,
+		0,
+		0,
+		32, 
+		32, 
+		fall,0xFFFFFFFF);
 }
 
 float FallEnemy::DistanceToPlayer(Player* player)
