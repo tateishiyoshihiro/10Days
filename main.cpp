@@ -52,6 +52,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int over = Novice::LoadTexture("./Resources/over.png");
 	int clear = Novice::LoadTexture("./Resources/clear.png");
 
+	int soundHandle1; // 決定音
+	soundHandle1 = Novice::LoadAudio("./Resources/determine.wav");
+
 	//int map[mapCountY][mapCountX] = { 0 };
 
 	// キー入力結果を受け取る箱
@@ -77,6 +80,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			{
 				scene = Game;
 				player->Initialize();
+
+				if (!Novice::IsPlayingAudio(soundHandle1)) {
+					Novice::PlayAudio(soundHandle1, false, 1.0f);
+				}
 			}
 			break;
 		case Game:
@@ -86,6 +93,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			{
 				if (player->isGorl) {
 					scene = GameClear;
+
+					if (!Novice::IsPlayingAudio(soundHandle1)) {
+						Novice::PlayAudio(soundHandle1, false, 1.0f);
+					}
 				}	
 			}
 			if (player->isAlive == false) {
@@ -96,12 +107,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
 				scene = Title;
+
+				if (!Novice::IsPlayingAudio(soundHandle1)) {
+					Novice::PlayAudio(soundHandle1, false, 1.0f);
+				}
 			}
 			break;
 		case GameOver:
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
 				scene = Title;
+
+				if (!Novice::IsPlayingAudio(soundHandle1)) {
+					Novice::PlayAudio(soundHandle1, false, 1.0f);
+				}
 			}
 			break;
 		}
