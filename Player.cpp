@@ -233,7 +233,7 @@ void Player::Draw()
 {
 	// 当たり判定するようの円
 	Novice::DrawEllipse((int)pos.x, (int)pos.y, (int)radius.x, (int)radius.y, 0.0f, WHITE, kFillModeSolid);
-	Novice::ScreenPrintf(0, 60, "life :%d", life);
+	//Novice::ScreenPrintf(0, 60, "life :%d", life);
 	if (life <= 3) {
 		Novice::DrawQuad((int)leftTopRotated.x, (int)leftTopRotated.y,
 			(int)rightTopRotated.x, (int)rightTopRotated.y,

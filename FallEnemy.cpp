@@ -67,9 +67,9 @@ void FallEnemy::Update(Player* player)
 		 player->lifeTimer = player->lifeTimer;
 	}
 
-	Novice::ScreenPrintf(0, 0, "Player Y: %f", player->pos.y);
+	/*Novice::ScreenPrintf(0, 0, "Player Y: %f", player->pos.y);
 	Novice::ScreenPrintf(0, 20, "Enemy Y: %f", FallEnemyPos.y);
-	Novice::ScreenPrintf(0, 40, "Distance: %f", distance);
+	Novice::ScreenPrintf(0, 40, "Distance: %f", distance);*/
 	
 }
 
