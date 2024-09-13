@@ -51,6 +51,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int back = Novice::LoadTexture("./Resources/back.png");
 	int over = Novice::LoadTexture("./Resources/over.png");
 	int clear = Novice::LoadTexture("./Resources/clear.png");
+	int rule = Novice::LoadTexture("./Resources/rule.png");
 
 	int soundHandle1; // 決定音
 	soundHandle1 = Novice::LoadAudio("./Resources/determine.wav");
@@ -61,6 +62,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	bool collisionSoundPlayed = false;
 	// 卵が割れてから動くタイマー
 	int collisionSoundPlayedTimer = 60;
+
+	bool isChange = false;
 
 	//int map[mapCountY][mapCountX] = { 0 };
 
@@ -85,8 +88,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case Title:
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
 			{
-				scene = Game;
-				player->Initialize();
+				if (!isChange) {
+					isChange = true;
+				}
+				else {
+					scene = Game;
+					player->Initialize();
+					isChange = false;
+				}
 
 				if (!Novice::IsPlayingAudio(soundHandle1)) {
 					Novice::PlayAudio(soundHandle1, false, 1.0f);
@@ -159,6 +168,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		switch (scene) {
 		case Title:
 			Novice::DrawSprite(0, 0, TitlePng, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
+			if (isChange) {
+				Novice::DrawSprite(0, 0, rule, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
+			}
 			break;
 		case Game:
 			Novice::DrawSprite(0, 0, back, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
