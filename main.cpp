@@ -54,6 +54,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	int soundHandle1; // 決定音
 	soundHandle1 = Novice::LoadAudio("./Resources/determine.wav");
+	int soundHandle2; // 卵が割れる音
+	soundHandle2 = Novice::LoadAudio("./Resources/Egg-cracks.wav");
+
+	// 衝突音が再生されたかどうかを示すフラグを追加
+	bool collisionSoundPlayed = false;
+	// 卵が割れてから動くタイマー
+	int collisionSoundPlayedTimer = 60;
 
 	//int map[mapCountY][mapCountX] = { 0 };
 
@@ -99,6 +106,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}	
 			}
+
+			if (player->collisionInvalid && !collisionSoundPlayed) {
+				if (!Novice::IsPlayingAudio(soundHandle2)) {
+					Novice::PlayAudio(soundHandle2, false, 1.0f);
+					collisionSoundPlayed = true;
+				}
+			}
+			if (collisionSoundPlayed == true) {
+				collisionSoundPlayedTimer--;
+			}
+			if (collisionSoundPlayedTimer <= 0)
+			{
+				collisionSoundPlayedTimer = 60;
+				collisionSoundPlayed = false;
+			}
+
 			if (player->isAlive == false) {
 				scene = GameOver;
 			}

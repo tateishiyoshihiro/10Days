@@ -6,7 +6,7 @@
 void FallEnemy::Initialize()
 {
 	fall = Novice::LoadTexture("./Resources/fall.png");
-	FallEnemyPos.x = 550.0f;
+	FallEnemyPos.x = 520.0f;
 	FallEnemyPos.y = 193.0f;
 	FallEnemyW = 32.0f;
 	FallEnemyH = 32.0f;
@@ -66,10 +66,6 @@ void FallEnemy::Update(Player* player)
 		player->collisionInvalid = false;
 		 player->lifeTimer = player->lifeTimer;
 	}
-
-	Novice::ScreenPrintf(0, 0, "Player Y: %f", player->pos.y);
-	Novice::ScreenPrintf(0, 20, "Enemy Y: %f", FallEnemyPos.y);
-	Novice::ScreenPrintf(0, 40, "Distance: %f", distance);
 	
 }
 
