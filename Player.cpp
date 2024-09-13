@@ -47,6 +47,11 @@ void Player::Initialize()
 	lifeTimer = lifeTime;
 	collisionInvalid = false;
 	isGorl = false;
+	speedHandle = Novice::LoadTexture("./Resources/speed.png");
+	width = 100;
+	height = 700;
+	speedPos = { 850.0f, 50.0f };
+	move = 600;
 }
 
 void Player::Update()
@@ -56,7 +61,7 @@ void Player::Update()
 	bool collidedRight = false;
 
 	Novice::GetHitKeyStateAll(keys);
-	
+
 	// プレイヤーが重力で落ちる
 	if (speed.x <= 5.0f) {
 		speed.y -= acceleration.y;
@@ -187,6 +192,32 @@ void Player::Update()
 		isGorl = true;
 
 	}
+
+	if (speed.x >= 6.0f) {
+		move = 0;
+	}
+	else if (speed.x >= 5.5f) {
+		move = 100;
+	}
+	else if (speed.x >= 5.0f) {
+		move = 200;
+	}
+	else if (speed.x >= 4.5f) {
+		move = 300;
+	}
+	else if (speed.x >= 4.0f) {
+		move = 400;
+	}
+	else if (speed.x >= 3.5f) {
+		move = 500;
+	}
+	else if (speed.x >= 3.0f) {
+		move = 600;
+	}
+	else if (speed.x >= 2.0f) {
+		move = 650;
+	}
+
 	leftTopRotated.x = (leftTopPos.x * cosf(theta) - leftTopPos.y * sinf(theta)) + pos.x;
 	leftTopRotated.y = (leftTopPos.y * cosf(theta) + leftTopPos.x * sinf(theta)) + pos.y;
 	rightTopRotated.x = (rightTopPos.x * cosf(theta) - rightTopPos.y * sinf(theta)) + pos.x;
@@ -233,7 +264,24 @@ void Player::Draw()
 			grHandle3,
 			WHITE);
 	}
-	Novice::ScreenPrintf(0, 30, "%f", speed.x);
+
+	Novice::DrawQuad(
+		(int)speedPos.x, (int)speedPos.y,
+		(int)speedPos.x + width, (int)speedPos.y,
+		(int)speedPos.x, (int)speedPos.y + height,
+		(int)speedPos.x + width, (int)speedPos.y + height,
+		0, 0,
+		width, height,
+		speedHandle,
+		0xFFFFFFFF);
+
+	Novice::DrawBox(
+		(int)speedPos.x, (int)speedPos.y,
+		width, move,
+		0.0f,
+		WHITE,
+		kFillModeSolid
+	);
 }
 
 bool Player::CheckCircleRectCollision(int circleX, int circleY, int circleRadius, int rectX1, int rectY1, int rectX2, int rectY2)

@@ -34,6 +34,12 @@ public:
 	bool collisionInvalid;
 	bool isGorl;
 
+	int speedHandle;
+	int width;
+	int height;
+	Vector2 speedPos;
+	int move;
+
 public:
 	void Initialize();
 	void Update();
