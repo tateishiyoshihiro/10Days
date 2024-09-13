@@ -57,8 +57,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	soundHandle1 = Novice::LoadAudio("./Resources/determine.wav");
 	int soundHandle2; // 卵が割れる音
 	soundHandle2 = Novice::LoadAudio("./Resources/Egg-cracks.wav");
-	int soundHandle3; // bgm
-	soundHandle3 = Novice::LoadAudio("./Resources/bgm.wav");
 
 	// 衝突音が再生されたかどうかを示すフラグを追加
 	bool collisionSoundPlayed = false;
@@ -105,10 +103,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		case Game:
-			// BGMが再生されていないなら再生開始
-			if (!Novice::IsPlayingAudio(soundHandle3)) {
-				Novice::PlayAudio(soundHandle3, false, 1.0f); 
-			}
 			player->Update();
 			fallEnemy->Update(player);
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE])
@@ -119,13 +113,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					if (!Novice::IsPlayingAudio(soundHandle1)) {
 						Novice::PlayAudio(soundHandle1, false, 1.0f);
 					}
-					// シーンが切り替わったらBGMを止める
-					Novice::StopAudio(soundHandle3);
 				}	
 			}
 
 			if (player->collisionInvalid && !collisionSoundPlayed) {
-				if (!Novice::IsPlayingAudio(soundHandle2)) {
+				if (Novice::IsPlayingAudio(soundHandle2)) {
 					Novice::PlayAudio(soundHandle2, false, 1.0f);
 					collisionSoundPlayed = true;
 				}
