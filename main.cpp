@@ -6,7 +6,7 @@
 #include"Vector2.h"
 #include "FallEnemy.h"
 
-const char kWindowTitle[] = "卵の帰還";
+const char kWindowTitle[] = "3045_卵の帰還";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
